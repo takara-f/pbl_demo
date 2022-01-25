@@ -173,7 +173,7 @@ def train(args):
                 print('Iter: {}, d_loss: {}, g_loss: {}, recon_loss: {}'.\
                         format(total_iter, d_loss, g_loss, r_loss))
 
-                with open('./trainloss.csv', 'a') as f:
+                with open('./trainsloss.csv', 'a') as f:
                     writer = csv.writer(f)
                     writer.writerow([total_iter,d_loss, g_loss, r_loss])
                 if np.mod(total_iter+1, 500 ) == 0:
