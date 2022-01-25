@@ -124,7 +124,9 @@ def simple_superpixel(batch_image, seg_num=200):
 def load_image_list(data_dir):
     name_list = list()
     for name in os.listdir(data_dir):
-        name_list.append(os.path.join(data_dir, name))
+        base, ext = os.path.splitext(name)
+        if ext == '.jpg':
+          name_list.append(os.path.join(data_dir, name))
     name_list.sort()
     return name_list
 
@@ -136,9 +138,13 @@ def next_batch(filename_list, batch_size):
     batch_data = []
     for i in range(batch_size):
         image = cv2.imread(filename_list[idx[i]])
-        image = image.astype(np.float32)/127.5 - 1
-        #image = image.astype(np.float32)/255.0
-        batch_data.append(image)
+        try:
+          #image = image.astype(np.float32)/127.5 - 1
+          image = image.astype(np.float32)/255.0
+          batch_data.append(image)
+        except:
+          print(filename_list[idx[i]])
+        
             
     return np.asarray(batch_data)
 
@@ -163,6 +169,7 @@ def write_batch_image(image, save_dir, name, n):
         fused_image[i] = np.hstack(fused_image[i])
     fused_image = np.vstack(fused_image)
     cv2.imwrite(fused_dir, fused_image.astype(np.uint8))
+    print(fused_dir)
 
 
 if __name__ == '__main__':
