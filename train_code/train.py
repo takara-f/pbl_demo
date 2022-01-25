@@ -4,7 +4,7 @@ Source code for CVPR 2020 paper
 by Xinrui Wang and Jinze yu
 '''
 
-
+import csv
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 
@@ -172,6 +172,10 @@ def train(args):
 
                 print('Iter: {}, d_loss: {}, g_loss: {}, recon_loss: {}'.\
                         format(total_iter, d_loss, g_loss, r_loss))
+
+                with open('./preloss.csv', 'a') as f:
+                    writer = csv.writer(f)
+                    writer.writerow([total_iter,d_loss, g_loss, r_loss])
                 if np.mod(total_iter+1, 500 ) == 0:
                     saver.save(sess, args.save_dir+'/saved_models/model', 
                                write_meta_graph=False, global_step=total_iter)
